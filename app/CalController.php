@@ -4,7 +4,7 @@
 namespace App;
 
 
-class Calculator
+class CalController
 {
     protected $cal;
 
@@ -32,4 +32,26 @@ class Calculator
     {
         return $this->cal->div($num1,$num2);
     }
+
+    public function sqt($num1)
+    {
+        return $this->cal->sqt($num1);
+    }
+
+    public function cut($num1)
+    {
+        return $this->cal->cut($num1);
+    }
+
+    public function pow($num1,$num2)
+    {
+        return $this->cal->pow($num1,$num2);
+    }
+
+    public function fac($num1)
+    {
+        //todo: check for negative number, test for 0
+        return $this->cal->fac($num1);
+    }
+
 }
