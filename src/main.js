@@ -3,7 +3,7 @@ import App from './App.vue'
 import vueResource from 'vue-resource'
 
 Vue.use(vueResource);
-Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+Vue.http.headers.common['Accept'] = 'application/json';
 
 new Vue({
   el: '#app',

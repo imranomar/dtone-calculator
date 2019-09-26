@@ -1,9 +1,11 @@
 <?php
 
+use App\Cts;
 use Illuminate\Http\Request;
 use App\CalController;
 use App\SimpleCal;
 App::bind('iCalc', 'Cal');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +81,12 @@ Route::post('/fac', function (Request $req)
 {
     //todo: check if numbers, convert to numbers, raise error if not
     $cal = new CalController(new SimpleCal());
+    if($req->num1<0 || $req->num1>170)
+    {
+      return response('Enter a number a positive integer less than 170',CTS::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+
     return $cal->fac($req->num1);
 });
 

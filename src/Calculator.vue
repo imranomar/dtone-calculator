@@ -5,13 +5,13 @@
         <div class="col-12 display" >{{text}}</div>
       </div>
       <div class="row">
-        <div class="col alert alert-secondary " >Cannot be zero</div>
+        <div class="col alert alert-secondary " >{{error}}</div>
       </div>
       <div class="row">
-        <div class="col-2 btn btn-secondary" @click="keyPressed">SRT</div>
-        <div class="col-2 btn btn-secondary" @click="keyPressed">CRT</div>
+        <div class="col-2 btn btn-secondary" @click="sqt">&radic;</div>
+        <div class="col-2 btn btn-secondary" @click="cut">&#8731;</div>
         <div class="col-2 btn btn-secondary" @click="factor">FAC</div>
-        <div class="col-2 btn btn-secondary" @click="keyPressed">POW</div>
+        <div class="col-2 btn btn-secondary" @click="keyPressed">x<sup>n</sup></div>
         <div class="col-2 btn btn-light" @click="keyPressed"><</div>
         <div class="col-2 btn btn-light" @click="reset">AC</div>
       </div>
@@ -58,24 +58,64 @@
         text : '0',
         operator : '',
         operand : '',
+        error:'',
+        clear:false,
       }
     },
     methods: {
+      operator:function(opp)
+      {
+
+        this.operator = opp;
+
+        //only change operator
+        if(!this.clear)
+        {
+          this.clear = true;
+          this.equal();
+        }
+
+      },
       factor:function(e)
       {
-        alert('factor');
-        let headers = {
-          'Access-Control-Allow-Origin' : '*',
-        };
-
-
-        this.$http.post('http://localhost/api/fac',{num1:this.text}, {headers: headers})
+        this.error = 'Calculating';
+        self = this;
+        this.$http.post('http://localhost/api/fac',{num1:this.text})
           .then(response =>
           {
-            alert(response);
+            self.error = '';
+            this.text = response.body;
           }, error =>
           {
-            alert(error);
+            this.error = error.body;
+          });
+      },
+      sqt:function(e)
+      {
+        this.error = 'Calculating';
+        self = this;
+        this.$http.post('http://localhost/api/sqt',{num1:this.text})
+          .then(response =>
+          {
+            self.error = '';
+            this.text = response.body;
+          }, error =>
+          {
+            this.error = error.body;
+          });
+      },
+      cut:function(e)
+      {
+        this.error = 'Calculating';
+        self = this;
+        this.$http.post('http://localhost/api/cut',{num1:this.text})
+          .then(response =>
+          {
+            self.error = '';
+            this.text = response.body;
+          }, error =>
+          {
+            this.error = error.body;
           });
       },
       keyUp: function(e)
@@ -163,6 +203,7 @@
       reset:function()
       {
         this.text= '0';
+        this.error = '';
       }
     },
     created: function() {
@@ -218,7 +259,9 @@
     padding: 0rem .8rem;
     font-size: 12px;
     border-radius: 0px;
-    color:red;
+    color: dodgerblue;
+    font-weight:bold;
+    min-height: 20px;
   }
 
 </style>
