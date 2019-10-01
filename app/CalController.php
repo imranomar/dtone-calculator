@@ -2,15 +2,22 @@
 
 
 namespace App;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 
-class CalController
+
+class CalController  extends Controller
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     protected $cal;
 
     function  __construct($cal)
     {
         $this->cal = $cal;
+        $this->middleware('auth.basic');
     }
 
     public function add($num1,$num2)

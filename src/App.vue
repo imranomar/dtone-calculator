@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cal_container">
     <p>Calculator By CalCo</p>
     <calculator></calculator>
 
@@ -35,6 +35,11 @@ export default {
   {
     text-align: center;
   }
+  .cal_container
+  {
+    max-width: 370px
+  }
+
   p{
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 30px;

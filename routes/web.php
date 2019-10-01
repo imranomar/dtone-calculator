@@ -19,3 +19,6 @@ Route::get('/calculator', function () {
     return view('calculator');
 });
 
+
+
+Route::get('/reports', 'ReportsController@index');
