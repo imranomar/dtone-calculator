@@ -76,15 +76,15 @@ TO INSTALL
 ----------
 Requirements: php7, composer, mysql, nodejs, npm
 
-.run composer install
+.run 'composer install'
 
-.run npm install
+.run 'npm install'
 
 .setup the .env file for your database settings and create the database
 
-.run the following in the root folder:
+.run 'php artisan migrate'
 
-php artisan migrate
+
 
 
 UNIT TESTS ( initial )
