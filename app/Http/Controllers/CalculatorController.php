@@ -8,7 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use App\SimpleCal;
 use App\Http\Requests\MathRequest;
-
+use App\Cts;
 
 
 class CalculatorController extends Controller
@@ -25,42 +25,108 @@ class CalculatorController extends Controller
 
     public function add(MathRequest $request)
     {
-      return $this->cal->add($request->num1, $request->num2);
+      try
+      {
+        return $this->cal->add($request->num1, $request->num2);
+      }
+      catch(\Exception $e)
+      {
+
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function sub(MathRequest $request)
     {
-      return $this->cal->sub($request->num1, $request->num2);
+      try
+      {
+        return $this->cal->sub($request->num1, $request->num2);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function mul(MathRequest $request)
     {
-      return $this->cal->mul($request->num1, $request->num2);
+      try
+      {
+        return $this->cal->mul($request->num1, $request->num2);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function div(MathRequest $request)
     {
-      return $this->cal->div($request->num1, $request->num2);
+      try
+      {
+        return $this->cal->div($request->num1, $request->num2);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
+
     }
 
     public function sqt(MathRequest $request)
     {
-      return $this->cal->sqt($request->num1);
+
+      try
+      {
+        return $this->cal->sqt($request->num1);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function cut(MathRequest $request)
     {
-      return $this->cal->cut($request->num1);
+      try
+      {
+        return $this->cal->cut($request->num1);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function fac(MathRequest $request)
     {
-      return $this->cal->fac($request->num1);
+      try
+      {
+        if($request->num1<0 || $request->num1>170)
+        {
+          return response('Enter a number a positive integer less than 170',CTS::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        else
+        {
+          return $this->cal->fac($request->num1);
+        }
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
     public function pow(MathRequest $request)
     {
-      return $this->cal->pow($request->num1, $request->num2);
+      try
+      {
+        return $this->cal->pow($request->num1, $request->num2);
+      }
+      catch(\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+      }
     }
 
 }

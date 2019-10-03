@@ -8,9 +8,9 @@
         <div class="col alert alert-secondary " >{{error}}</div>
       </div>
       <div class="row">
-        <div class="col-2 btn btn-secondary" @click="sqt">&radic;</div>
-        <div class="col-2 btn btn-secondary" @click="cut">&#8731;</div>
-        <div class="col-2 btn btn-secondary" @click="factor">FAC</div>
+        <div class="col-2 btn btn-secondary" @click="singleOperandFunctions('sqt')">&radic;</div>
+        <div class="col-2 btn btn-secondary" @click="singleOperandFunctions('cut')">&#8731;</div>
+        <div class="col-2 btn btn-secondary" @click="singleOperandFunctions('fac')">FAC</div>
         <div class="col-2 btn btn-secondary"  :class="[operator=='pow'?'active':'']"   @click="operate('pow')">x<sup>n</sup></div>
         <div class="col-2 btn btn-light" @click="backspace"><</div>
         <div class="col-2 btn btn-light" @click="reset">AC</div>
@@ -55,20 +55,15 @@
     data: function ()
     {
       return {
-        text: '0',
-        operator: '',
-        operand: '',
-        error: '',
-        clear: false,
+        text: '0', //text displaying on the calculator display
+        operator: '', //currently selected operator
+        operand: '', //the first operand is stored here
+        error: '', //error to show below the display screen
+        clear: false, // if we are about to enter another operand, then clear the screen first
       }
     },
-    watch: {
-      operator: function (val)
-      {
-        //alert(val);
-      },
-    },
     methods: {
+      //to calculate the current equation
       equal: function ()
       {
         console.log('equal pressed');
@@ -106,7 +101,7 @@
 
         this.error = 'Calculating';
         self = this;
-        this.$http.post('http://localhost/api/cal/' + path, {num1: this.operand, num2: this.text})
+        this.$http.post(path, {num1: this.operand, num2: this.text})
           .then(response =>
           {
             self.error = '';
@@ -122,11 +117,11 @@
 
 
       },
+      //when any operator is selected e.g. + - * / pow
       operate: function (opp)
       {
 
         console.log('operator pressed');
-
 
         //only change operator
         if (this.clear)
@@ -141,11 +136,25 @@
 
 
       },
-      factor: function (e)
+      //call by the calculator for single operand functions like fac, sqt, cut
+      singleOperandFunctions: function (type)
       {
+        let path = '';
+        if(type=='fac')
+        {
+          path = 'fac';
+        }
+        else if(type=='sqt')
+        {
+          path = 'sqt';
+        }
+        else if(type=='cut')
+        {
+          path = 'cut';
+        }
         this.error = 'Calculating';
         self = this;
-        this.$http.post('http://localhost/api/cal/fac', {num1: this.text})
+        this.$http.post(path, {num1: this.text})
           .then(response =>
           {
             self.error = '';
@@ -155,41 +164,17 @@
             this.error = error.body;
           });
       },
-      sqt: function (e)
-      {
-        this.error = 'Calculating';
-        self = this;
-        this.$http.post('http://localhost/api/cal/sqt', {num1: this.text})
-          .then(response =>
-          {
-            self.error = '';
-            this.text = response.body;
-          }, error =>
-          {
-            this.error = error.body;
-          });
-      },
-      cut: function (e)
-      {
-        this.error = 'Calculating';
-        self = this;
-        this.$http.post('http://localhost/api/cal/cut', {num1: this.text})
-          .then(response =>
-          {
-            self.error = '';
-            this.text = response.body;
-          }, error =>
-          {
-            this.error = error.body;
-          });
-      },
+      //called when any key is pressed on the keyboard
       keyUp: function (e)
       {
+        //escape key is pressed on the keyboard
         if (e.keyCode === 27)
         {
+
           this.reset();
         }
       },
+      //add and remove negative sign on number showing
       negative: function (e)
       {
         //+/- PRESSED
@@ -215,6 +200,7 @@
           }
 
       },
+      //when the delete on the calculator is pressed
       backspace: function (e)
       {
         // < PRESSED
@@ -233,6 +219,7 @@
 
 
       },
+      //when the digit or decimal is pressed
       keyPressed: function (e)
       {
 
@@ -284,6 +271,7 @@
         this.text = this.text + e.target.innerHTML;
 
       },
+      //when escape key or 'AC' is pressed - to clear the calculator
       reset: function ()
       {
         this.text = '0';
@@ -291,12 +279,12 @@
         this.operand = '';
         this.operator = '';
         this.clear = false;
-      },
-      created: function ()
-      {
-        document.addEventListener('keyup', this.keyUp);
       }
-    }
+    },
+    created()
+    {
+      document.addEventListener('keyup', this.keyUp);
+    },
   }
 </script>
 

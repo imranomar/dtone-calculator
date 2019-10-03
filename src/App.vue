@@ -1,12 +1,14 @@
 <template>
   <div class="cal_container">
-    <p>Calculator By CalCo</p>
+
     <calculator></calculator>
 
     <div class="mt-4">
+      <p>
       Imran Omar Bukhsh<br>
       <small>00971 50 422 5054</small><br>
       <small>imranomar@gmail.com</small><br>
+      </p>
     </div>
 
   </div>
@@ -40,8 +42,17 @@ export default {
     max-width: 370px
   }
 
-  p{
+  h1{
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 30px;
+    margin-bottom: 20px;
   }
+
+  p{
+    line-height: 20px;
+  }
+
+
+
+
 </style>

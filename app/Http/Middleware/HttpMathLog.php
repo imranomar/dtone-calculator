@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Cts;
 use App\MathLog;
 use Closure;
 
@@ -27,18 +28,28 @@ class HttpMathLog
         'fac'=>'Factorial',
         'sqt'=>'Square Root',
         'cut'=>'Cube Root',
+        'pow'=>'Power Of',
+
       );
 
 
       //return $next($request);
-      $response = $next($request);
-      $mlog  = new MathLog();
-      $mlog->endpoint = $caption[collect(request()->segments())->last()];
-      $mlog->num1 = $request->num1;
-      $mlog->num2 = $request->num2;
-      $mlog->response = $response->content();
-      $mlog->save();
-      return $response;
+      try
+      {
+        $response = $next($request);
+          $mlog = new MathLog();
+          $mlog->endpoint = $caption[collect(request()->segments())->last()];
+          $mlog->num1 = $request->num1 ? $request->num1 : '';
+          $mlog->num2 = $request->num2 ? $request->num2 : '';
+          $mlog->response = $response->content();
+          $mlog->save();
+          return $response;
+      }
+      catch (\Exception $e)
+      {
+        return response( $e->getMessage(), Cts::HTTP_INTERNAL_SERVER_ERROR);
+
+      }
     }
 
 

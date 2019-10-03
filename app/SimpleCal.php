@@ -4,6 +4,7 @@
 namespace App;
 use App\iCalc;
 
+//A simple calculator class implmenting the iCalc interface
 class SimpleCal implements iCalc
 {
     public static function add($num1, $num2)
