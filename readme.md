@@ -19,7 +19,7 @@ NOTE: The Calculator can be viewed at http://3.80.185.75/public/calculator
 NOTE: The reports page can be viewed at http://3.80.185.75/public/reports
 
 NOTE: api documentation can be found here at
-https://documenter.getpostman.com/view/7566754/SVYqQKF7?version=latest
+https://documenter.getpostman.com/view/7566754/SVtPZBzc?version=latest
 
 CONFIGURATION
 -------------
